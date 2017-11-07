@@ -177,8 +177,22 @@ public class Table
     {
         try
         {
-           // System.out.println("Sending help."); // test
+            // System.out.println("Sending help."); // test
             ObjOut.writeUTF("Help@"+Integer.toString(ID)); // Send the request to the server
+            ObjOut.flush();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error Requesting Help."+ e);
+        }
+    }
+    
+        public void OrderPaid()
+    {
+        try
+        {
+            // Send the paid notification request to the server
+            ObjOut.writeUTF("Paid@"+Integer.toString(ID));
             ObjOut.flush();
         }
         catch(Exception e)
@@ -212,15 +226,15 @@ public class Table
         // test cases
         Table table1 = new Table();
         
-        Food temp = new Food("Diggity Dog", 5.00, true, false);
+        Food temp = new Food("Diggity Dog","Food", 5.00, true, false);
         temp.SetIngredients("test");
         temp.SetDescription("test");
             
-        Food temp1 = new Food("Hamburglar", 7.00, true, false);
+        Food temp1 = new Food("Hamburglar", "Food",7.00, true, false);
         temp1.SetIngredients("test2");
         temp1.SetDescription("test3");
             
-        Food temp3 = new Food("Squeezed Cow", 5.00, true, false);
+        Food temp3 = new Food("Squeezed Cow", "Food",5.00, true, false);
         temp3.SetIngredients("Calcium");
         temp3.SetDescription("Freshly Squeezed!");
         
@@ -234,7 +248,8 @@ public class Table
         table1.Handshake();
         table1.SendOrder();
         table1.RequestHelp();
-        
+        table1.OrderPaid();
+
         // test loop
         while(table1.Connected)
         {
