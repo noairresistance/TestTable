@@ -7,9 +7,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import allclasses.Food;
+import allclasses.*;
 import allclasses.Order;
 import allclasses.RestaurantItem;
+import allclasses.ServerSentMasterList;
 
 
 public class Table
@@ -20,6 +21,8 @@ public class Table
     private ObjectOutputStream ObjOut = null; // stream used to output objects
     private boolean Connected = false;
     
+    private ServerSentMasterList SentMenu;
+    private MasterFoodItemList Menu;
     private Order Order = null; // an array list containing foods, drinks, and merch ordered by the customer
     
     public Table()
@@ -72,8 +75,37 @@ public class Table
         public void run()
         {
             String Message; // the message from the server
+                       
             try
             {
+                System.out.println("Getting Menu");
+                SentMenu = (ServerSentMasterList)ObjIn.readObject();
+                Menu = new MasterFoodItemList(SentMenu.totalList);
+                
+                for (int i = 0; i < Menu.drinks.size(); i++)
+            {
+                System.out.println(Menu.drinks.get(i).GetName());
+            }
+            System.out.println();
+            
+            for (int i = 0; i < Menu.appetizers.size(); i++)
+            {
+                System.out.println(Menu.appetizers.get(i).GetName());
+            }
+            System.out.println();
+            
+            for (int i = 0; i < Menu.entries.size(); i++)
+            {
+                System.out.println(Menu.entries.get(i).GetName());
+            }
+            System.out.println();
+            
+            for (int i = 0; i < Menu.desserts.size(); i++)
+            {
+                System.out.println(Menu.desserts.get(i).GetName());
+            }
+            System.out.println();
+                
                 while((Message = ObjIn.readUTF()) != null)
                 {
                     System.out.println(Message); // test
