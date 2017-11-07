@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package table;
 
 import java.net.SocketException;
@@ -12,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import allclasses.Food;
-import allclasses.OrderList;
+import allclasses.Order;
 import allclasses.RestaurantItem;
 
 
@@ -24,11 +20,11 @@ public class Table
     private ObjectOutputStream ObjOut = null; // stream used to output objects
     private boolean Connected = false;
     
-    private OrderList Order = null; // an array list containing foods, drinks, and merch ordered by the customer
+    private Order Order = null; // an array list containing foods, drinks, and merch ordered by the customer
     
     public Table()
     {
-           Order = new OrderList();
+           Order = new Order();
     }
     
     public void Handshake()
@@ -83,10 +79,10 @@ public class Table
                     System.out.println(Message); // test
                     if(Message.equals("Modify")) // if the order was modified by the waiter
                     {
-                        OrderList ModifiedOrder = (OrderList)ObjIn.readObject();
+                        Order ModifiedOrder = (Order)ObjIn.readObject();
                         Order = ModifiedOrder;
                         
-                        /* test
+                        
                         System.out.println("Checking contents of modified Order.");
                         for(int i = 0; i < Order.GetOrderSize(); i++)
                         {
@@ -95,7 +91,7 @@ public class Table
                             {
                                 System.out.println(((Food)Order.GetItem(i)).GetIngredients(j));
                             }
-                        }*/
+                        }
                         
                         // clear the order and read the new order
                     }
@@ -119,7 +115,7 @@ public class Table
     }
     
     // this function is used to add an item to table's order
-    public void AddToOrder(RestaurantItem newItem)
+    public void AddToOrder(Food newItem)
     {
         Order.AddToOrder(newItem); // call the add to order in the list class
     }
@@ -174,11 +170,11 @@ public class Table
         }
         
     }
-    
+    /* not needed??
     public void SetTableNum(int i)
     {
         this.Order.SetTableNum(i);
-    }
+    }*/
     public static void main(String argv[])
     {
         // test cases
@@ -199,7 +195,7 @@ public class Table
         table1.AddToOrder(temp);
         table1.AddToOrder(temp1);
         table1.AddToOrder(temp3);
-        table1.SetTableNum(1);
+        //table1.SetTableNum(1);
         
         System.out.println("Attempting to connect");
         
